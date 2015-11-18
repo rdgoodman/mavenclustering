@@ -2,7 +2,7 @@ package clustering;
 
 public class RunModels {
 
-	private static void main(int[] args){
+	public static void main(String[] args){
 		System.out.println("it's working");
 	}
 	
