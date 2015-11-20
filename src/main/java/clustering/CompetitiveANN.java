@@ -69,14 +69,14 @@ public class CompetitiveANN {
 		
 		// populates input layer
 		for(int i = 0; i < numInputs; i++){
-			inputLayer.add(new Neuron(false));
+			inputLayer.add(new Neuron(false, eta));
 			// init weights
 			inputLayer.get(i).initializeWeights(numInputs);
 		}
 		
 		// populates output layer
 		for (int i = 0; i < numOutputs; i++){
-			competeLayer.add(new Neuron(true));
+			competeLayer.add(new Neuron(true, eta));
 			// init weights
 			competeLayer.get(i).initializeWeights(numInputs);
 		}
@@ -101,17 +101,36 @@ public class CompetitiveANN {
 	}
 	
 	/**
-	 * Propogates inputs through network
+	 * Propagates inputs through network
 	 */
 	public void generateOutputs(){
 		// TODO: will eventually need to return something other than "void"
+		
+		// find "winner"
+		int maxIndex = 0;
+		double max = Double.MIN_VALUE;
 		for (int o = 0; o < numOutputs; o++){
-			// TODO: check that o is "on", I guess?
 			nodes.get(1).get(o).calcOutput();
+			double op = nodes.get(1).get(o).getOutput();
+			if (op > max){
+				max = op;
+				maxIndex = o;
+			}
 		}
+		
+		// TODO: testing, remote
+		print();
+		
+		// update winner's weights
+		nodes.get(1).get(maxIndex).updateWeights();
+		
 	}
 	
+
 	
+	/**
+	 * Prints net for testing purposes
+	 */
 	public void print(){
 		System.out.println();
 		System.out.print("inputs: ");
