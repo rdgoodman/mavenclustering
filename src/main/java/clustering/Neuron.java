@@ -25,10 +25,11 @@ public class Neuron {
 	}
 	
 	public double calcOutput(){
-		// TODO
-		
 		if (competeUnit){
-			
+			output = 0;
+			for (int i = 0; i < inputs.size(); i++){
+				output += (w.get(i) * inputs.get(i));
+			}
 		} else {
 			return output;
 		}
@@ -37,7 +38,7 @@ public class Neuron {
 	}
 	
 	protected void initializeWeights(int numWeights){
-		// TODO: these need to be less than 1 anyway, right?
+		// these need to be less than 1 anyway, right?
 		for (int i = 0; i < numWeights; i++){
 			w.add(Math.random());
 		}
@@ -70,6 +71,19 @@ public class Neuron {
 	public void setOutput(double o){
 		this.output = o;
 	}
+	
+	public double getOutput(){
+		return output;
+	}
+	
+	public void addInput(double i){
+		inputs.add(i);
+	}
+	
+	public ArrayList<Double> getInputs(){
+		return inputs;
+	}
+		
 	
 	public String toString(){
 		DecimalFormat twoDForm = new DecimalFormat("#.##");

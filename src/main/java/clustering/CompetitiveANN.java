@@ -80,7 +80,6 @@ public class CompetitiveANN {
 			// init weights
 			competeLayer.get(i).initializeWeights(numInputs);
 		}
-
 		
 		// set output for input nodes
 		for (int i = 0; i < numInputs; i++){
@@ -92,11 +91,24 @@ public class CompetitiveANN {
 			for (int j = 0; j < numOutputs; j++){
 				inputLayer.get(i).addChild(competeLayer.get(j));
 				competeLayer.get(j).addParent(inputLayer.get(i));
+				// set inputs
+				competeLayer.get(j).addInput(inputLayer.get(i).getOutput());
 			}
 		}
 		
 		nodes.add(inputLayer);
 		nodes.add(competeLayer);
+	}
+	
+	/**
+	 * Propogates inputs through network
+	 */
+	public void generateOutputs(){
+		// TODO: will eventually need to return something other than "void"
+		for (int o = 0; o < numOutputs; o++){
+			// TODO: check that o is "on", I guess?
+			nodes.get(1).get(o).calcOutput();
+		}
 	}
 	
 	
