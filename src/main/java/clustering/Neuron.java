@@ -1,5 +1,6 @@
 package clustering;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class Neuron {
@@ -7,6 +8,7 @@ public class Neuron {
 	ArrayList<Neuron> parents;
 	ArrayList<Neuron> children;
 	ArrayList<Double> w;
+	ArrayList<Double> inputs;
 	double output;
 	boolean competeUnit;
 	
@@ -19,6 +21,7 @@ public class Neuron {
 		children = new ArrayList<Neuron>();
 		this.competeUnit = competeUnit;
 		w = new ArrayList<Double>();
+		inputs = new ArrayList<Double>();
 	}
 	
 	public double calcOutput(){
@@ -43,7 +46,7 @@ public class Neuron {
 	
 	private void normalizeWeights(){
 		// 1: find max
-		double max = 0;
+		double max = Double.MIN_VALUE;
 		for (int i = 0; i < w.size(); i++){
 			if(w.get(i) > max){
 				max = w.get(i);
@@ -65,7 +68,18 @@ public class Neuron {
 	}
 	
 	public void setOutput(double o){
-		this.output = output;
+		this.output = o;
 	}
 	
+	public String toString(){
+		DecimalFormat twoDForm = new DecimalFormat("#.##");
+		DecimalFormat threeDForm = new DecimalFormat("#.###");		
+		
+		String s = "[";
+		for (int i = 0; i < w.size(); i++){
+			s += (Double.valueOf(twoDForm.format(w.get(i))) + " ");
+		}
+		
+		return s += (" ~ " + Double.valueOf(threeDForm.format(output)) + "]  ");
+	}
 }

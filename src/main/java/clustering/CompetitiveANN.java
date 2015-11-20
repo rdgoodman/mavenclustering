@@ -13,7 +13,7 @@ public class CompetitiveANN {
 	private ArrayList<Double> inputs;
 
 	/**
-	 * Creates a new competitive learning neural network
+	 * Creates a new competitive learning neural network - requires calling setInputs immediately after
 	 * @param eta learning rate
 	 * @param numInputs number of inputs (size)
 	 * @param numOutputs number of clusters
@@ -31,9 +31,32 @@ public class CompetitiveANN {
 		nodes = new ArrayList<ArrayList<Neuron>>();
 	}
 	
-	private void setInputs(ArrayList<Double> inputs){
+	/**
+	 * Takes inputs and builds network structure
+	 */
+	public void setInputs(ArrayList<Double> inputs){
 		this.inputs = inputs;
+		normalize(inputs);
 		createNetStructure();
+	}
+	
+	/**
+	 * Normalizes the input vector
+	 */
+	private ArrayList<Double> normalize(ArrayList<Double> i){
+		// find max
+		double max = Double.MIN_VALUE;
+		for (int x = 0; x < i.size(); x++){
+			if (i.get(x) > max){
+				max = i.get(x);
+			}
+		}
+		
+		// divide all by max
+		for (int x = 0; x < i.size(); x++){
+			i.set(x, i.get(x)/max);
+		}
+		return i;
 	}
 	
 	
@@ -74,6 +97,21 @@ public class CompetitiveANN {
 		
 		nodes.add(inputLayer);
 		nodes.add(competeLayer);
+	}
+	
+	
+	public void print(){
+		System.out.println();
+		System.out.print("inputs: ");
+		for(int i = 0; i < numInputs; i++){
+			System.out.print(nodes.get(0).get(i));
+		}
+		System.out.println();
+		System.out.print("compete: ");
+		for(int i = 0; i < numOutputs; i++){
+			System.out.print(nodes.get(1).get(i));
+		}
+		System.out.println();
 	}
 
 }
