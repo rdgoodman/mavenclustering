@@ -3,6 +3,7 @@ package clustering;
 import java.util.ArrayList;
 
 // largely relies on http://page.mi.fu-berlin.de/rojas/neural/chapter/K5.pdf
+// and Engelbrecht p60
 
 public class CompetitiveANN {
 	

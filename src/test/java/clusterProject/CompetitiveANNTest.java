@@ -9,6 +9,9 @@ import org.junit.Test;
 import clustering.CompetitiveANN;
 
 public class CompetitiveANNTest {
+	
+	// TODO: testing -> prune out nodes that have never had a weight update, 
+	// then run instances through and assign to clusters associated with nodes
 
 	@Test
 	public void testInitialization() {
@@ -20,10 +23,10 @@ public class CompetitiveANNTest {
 		
 		CompetitiveANN net = new CompetitiveANN(.5, in.size(), 3);
 		net.setInputs(in);
-		net.print();
 		
 		net.generateOutputs();
 		net.print();
+
 	}
 
 }
