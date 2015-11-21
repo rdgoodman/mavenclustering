@@ -10,8 +10,6 @@ import clustering.CompetitiveANN;
 
 public class CompetitiveANNTest {
 	
-	// TODO: testing -> prune out nodes that have never had a weight update, 
-	// then run instances through and assign to clusters associated with nodes
 
 	@Test
 	public void testInitialization() {
