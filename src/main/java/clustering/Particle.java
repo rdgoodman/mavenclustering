@@ -91,7 +91,9 @@ public class Particle {
 	 */
 	protected double calcFitness(ArrayList<ArrayList<Double>> data){
 		// TODO: see "Data Clustering using Particle Swarm Optimization"
-		// apparently this is known as "quantization error"
+		
+		
+		
 		return -1;
 	}
 	
