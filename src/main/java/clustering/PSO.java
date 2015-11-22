@@ -9,6 +9,7 @@ public class PSO {
 	private double phi1;
 	private double phi2;
 	private ArrayList<Double> pg;
+	private ArrayList<ArrayList<Double>> data;
 	
 	/**
 	 * 
@@ -20,7 +21,7 @@ public class PSO {
 	 * @param numDimensions length of input vector
 	 */
 	public PSO(double omega, double phi1, double phi2, int swarmSize, int numClusters, int numDimensions) {
-		// TODO: will need to take training data
+		// TODO: will need to take (and maybe normalize?) training data
 		this.omega = omega;
 		this.phi1 = phi1;
 		this.phi2 = phi2;
@@ -39,11 +40,13 @@ public class PSO {
 	
 	private void run(){
 		// TODO: should return something other than "void"
+		
+		// Step 1
 		for (Particle p : swarm){
-			double fc = p.calcFitness();
-			if (fc < p.getPersonalBestFitness()){
-				
+			for (ArrayList<Double> z : data){
+				p.assignToBestCluster(z);				
 			}
+			p.calcFitness(data);
 		}
 	}
 	
