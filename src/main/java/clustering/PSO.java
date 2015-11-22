@@ -40,6 +40,7 @@ public class PSO {
 	
 	private void run(){
 		// TODO: should return something other than "void"
+		// should, in fact, return a set of Clusters corresponding to winning Particle
 		
 		// Step 1
 		for (Particle p : swarm){

@@ -12,11 +12,11 @@ public class Particle {
 
 	// Arraylist(i)(j) is the jth cluster centroid vector of
 	// the ith particle in cluster Cij
-	private ArrayList<ArrayList<Double>> centroids;
+	private ArrayList<Cluster> centroids;
 	private double fitness;
 	
 	// personal best position
-	private ArrayList<ArrayList<Double>> best;
+	private ArrayList<Cluster> best;
 	private double bestFitness;
 	
 	/**
@@ -26,7 +26,7 @@ public class Particle {
 	 */
 	public Particle(int numClusters, int numDimensions){
 		this.numClusters = numClusters;
-		centroids = new ArrayList<ArrayList<Double>>();
+		centroids = new ArrayList<Cluster>();
 		this.numDimensions = numDimensions;
 		
 		initialize();
@@ -46,7 +46,7 @@ public class Particle {
 				// randomly initialize each element of each centroid vector
 				vector.add(Math.random());
 			}
-			centroids.add(vector);
+			centroids.add(new Cluster(vector, c));
 		}
 	}
 	
@@ -79,7 +79,7 @@ public class Particle {
 	private double calcDistToCentroid(int index, ArrayList<Double> z){
 		double sum = 0;
 		for (int i = 0; i < numDimensions; i++){
-			sum += Math.pow(z.get(i) - centroids.get(index).get(i), 2);
+			sum += Math.pow(z.get(i) - centroids.get(index).getCentroid().get(i), 2);
 		}
 		sum = Math.sqrt(sum);		
 		return sum;
@@ -101,7 +101,7 @@ public class Particle {
 		return bestFitness;
 	}
 	
-	protected ArrayList<ArrayList<Double>> getPersonalBest(){
+	protected ArrayList<Cluster> getPersonalBest(){
 		return best;
 	}
 	
@@ -114,7 +114,7 @@ public class Particle {
 		for (int i = 0; i < numClusters; i++){
 			System.out.print("Cluster " + i + ": ");
 			for (int j = 0; j < numDimensions; j++){
-				System.out.print(Double.valueOf(twoDForm.format(centroids.get(i).get(j))) + "  ");
+				System.out.print(Double.valueOf(twoDForm.format(centroids.get(i).getCentroid().get(j))) + "  ");
 			}
 			System.out.println();
 		}
