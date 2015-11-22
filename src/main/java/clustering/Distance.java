@@ -1,7 +1,8 @@
 package clustering;
 
 /*
- * A class to calculate the distance between the target and observed outputs in RBFNN.
+ * A class to calculate the distance between the target and observed outputs in kMeans clustering
+ * algorithm.
  */
 
 import java.util.ArrayList;
