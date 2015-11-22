@@ -50,8 +50,46 @@ public class Particle {
 		}
 	}
 	
+	/**
+	 * Assigns a data vector to the cluster that minimizes the distance from z to the centroid
+	 */
+	protected int assignToBestCluster(ArrayList<Double> z){
+		// minimization of distance
+		double min = Double.MAX_VALUE;
+		int minIndex = 0;
+		
+		// iterates through all clusters in this particle
+		for (int c = 0; c < numClusters; c++){
+			double dist = calcDistToCentroid(c, z);
+			if (dist < min){
+				dist = min;
+				minIndex = c;
+			}
+		}
+		// TODO: we need some way to make this assignment stick 
+		// maybe inputs can be an object that have an additional field, "cluster"?
+		return minIndex;
+	}
 	
-	protected double calcFitness(){
+	/**
+	 * Calculates Euclidean distance to the index-th centroid in this particle
+	 * @param index centroid to calculate distance to
+	 * @param z data vector
+	 */
+	private double calcDistToCentroid(int index, ArrayList<Double> z){
+		double sum = 0;
+		for (int i = 0; i < numDimensions; i++){
+			sum += Math.pow(z.get(i) - centroids.get(index).get(i), 2);
+		}
+		sum = Math.sqrt(sum);		
+		return sum;
+	}
+	
+	/**
+	 * Calculates this particle's fitness based on quantization error
+	 * @return
+	 */
+	protected double calcFitness(ArrayList<ArrayList<Double>> data){
 		// TODO: see "Data Clustering using Particle Swarm Optimization"
 		// apparently this is known as "quantization error"
 		return -1;
