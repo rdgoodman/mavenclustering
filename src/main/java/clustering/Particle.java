@@ -53,7 +53,7 @@ public class Particle {
 	/**
 	 * Assigns a data vector to the cluster that minimizes the distance from z to the centroid
 	 */
-	protected int assignToBestCluster(ArrayList<Double> z){
+	protected int findBestCluster(ArrayList<Double> z){
 		// minimization of distance
 		double min = Double.MAX_VALUE;
 		int minIndex = 0;
@@ -89,7 +89,7 @@ public class Particle {
 	 * Calculates this particle's fitness based on quantization error
 	 * @return
 	 */
-	protected double calcFitness(ArrayList<ArrayList<Double>> data){
+	protected double calcFitness(ArrayList<Datum> data){
 		// TODO: see "Data Clustering using Particle Swarm Optimization"
 		
 		

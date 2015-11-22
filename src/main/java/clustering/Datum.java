@@ -16,6 +16,10 @@ public class Datum {
 		this.inputs = inputs;
 	}
 	
+	public ArrayList<Double> getData(){
+		return inputs;
+	}
+	
 	public void assignToCluster(Cluster c){
 		this.cluster = c;
 		this.cIndex = c.getIndex();

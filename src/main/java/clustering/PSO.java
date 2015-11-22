@@ -9,7 +9,7 @@ public class PSO {
 	private double phi1;
 	private double phi2;
 	private ArrayList<Double> pg;
-	private ArrayList<ArrayList<Double>> data;
+	private ArrayList<Datum> data;
 	
 	/**
 	 * 
@@ -44,8 +44,8 @@ public class PSO {
 		
 		// Step 1
 		for (Particle p : swarm){
-			for (ArrayList<Double> z : data){
-				p.assignToBestCluster(z);				
+			for (Datum z : data){
+				p.findBestCluster(z.getData());				
 			}
 			p.calcFitness(data);
 		}
