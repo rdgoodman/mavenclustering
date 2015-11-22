@@ -3,8 +3,12 @@ package clustering;
 import java.util.ArrayList;
 
 // largely relies on http://page.mi.fu-berlin.de/rojas/neural/chapter/K5.pdf
+// and Engelbrecht p60
 
 public class CompetitiveANN {
+	
+	// TODO: testing -> prune out nodes that have never had a weight update, 
+	// then run instances through and assign to clusters associated with nodes
 	
 	private int numInputs;
 	private double eta;
@@ -118,14 +122,14 @@ public class CompetitiveANN {
 			}
 		}
 		
-		// TODO: testing, remote
+		// TODO: testing, remove
 		print();
 		
 		// update winner's weights
+		// TODO: this should probably eventually be called in another function for training
 		nodes.get(1).get(maxIndex).updateWeights();
 		
 	}
-	
 
 	
 	/**

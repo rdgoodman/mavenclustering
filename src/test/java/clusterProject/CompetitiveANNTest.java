@@ -9,6 +9,7 @@ import org.junit.Test;
 import clustering.CompetitiveANN;
 
 public class CompetitiveANNTest {
+	
 
 	@Test
 	public void testInitialization() {
@@ -20,10 +21,10 @@ public class CompetitiveANNTest {
 		
 		CompetitiveANN net = new CompetitiveANN(.5, in.size(), 3);
 		net.setInputs(in);
-		net.print();
 		
 		net.generateOutputs();
 		net.print();
+
 	}
 
 }
