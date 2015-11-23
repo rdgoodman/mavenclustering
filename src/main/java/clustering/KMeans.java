@@ -26,7 +26,7 @@ public class KMeans {
         //System.out.println(k + " : clusters");
         Random rand = new Random();
         //int indim = in.get(0).size(); //figure out dimensionality of input
-        ArrayList<ArrayList> clusters = new ArrayList(); //initialize cluster array
+        ArrayList<ArrayList> clusters = new ArrayList(); //initalize cluster array
         //clusters created randomly, refined through time
         for (int i = 0; i < k; i++) {//Generate k examples of dimensionality same as input
             clusters.add(new ArrayList());
@@ -81,7 +81,7 @@ public class KMeans {
                     int count = 0;
                     for (int j = 0; j < insize; j++) {//each input
                         //ystem.out.println(in.get(j).get(dim));
-                        double c3 = in.get(j).get(dim);
+                        double c3 = (double) in.get(j).get(dim);
                         //System.out.println("c3: " + c3);
                         int c2 = (int) (c3);
                         //System.out.println("c2: " + c2);
@@ -92,7 +92,6 @@ public class KMeans {
                             //System.out.println("Dim Avg: " + dimAvg);
                             count++;
                             //ystem.out.println(count);
-                            double.class
                         }
                     }
                     if (count != 0) {
@@ -123,5 +122,3 @@ public class KMeans {
         return clusters;
     }
 }
-
-
