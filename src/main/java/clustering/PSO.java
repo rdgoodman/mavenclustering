@@ -9,7 +9,7 @@ public class PSO {
 	private double phi1;
 	private double phi2;
 	private ArrayList<Double> pg;
-	private ArrayList<ArrayList<Double>> data;
+	private ArrayList<Datum> data;
 	
 	/**
 	 * 
@@ -21,7 +21,6 @@ public class PSO {
 	 * @param numDimensions length of input vector
 	 */
 	public PSO(double omega, double phi1, double phi2, int swarmSize, int numClusters, int numDimensions) {
-		// TODO: will need to take (and maybe normalize?) training data
 		this.omega = omega;
 		this.phi1 = phi1;
 		this.phi2 = phi2;
@@ -38,19 +37,46 @@ public class PSO {
 		}
 	}
 	
-	private void run(){
-		// TODO: should return something other than "void"
+	/**
+	 * Runs the optimization given a set of data to cluster
+	 * @param data the data vectors to cluster
+	 * @return best clustering
+	 */
+	public ArrayList<Cluster> run(ArrayList<Datum> data){
+		// returns a set of Clusters corresponding to winning Particle
+		
+		// TODO: do we need to normalize the data?
+		this.data = data;
 		
 		// Step 1
 		for (Particle p : swarm){
-			for (ArrayList<Double> z : data){
-				p.assignToBestCluster(z);				
+			for (Datum z : data){
+				int cluster = p.findBestCluster(z);
+				// TODO: testing, remove
+				System.out.println(z.getData().get(0) + " belongs in " + cluster);				
 			}
-			p.calcFitness(data);
+			
+			double fit = p.calcFitness(data);
+			// TODO: testing, remove
+			System.out.println("Particle fitness: " + fit);
+			System.out.println();
 		}
+		
+		// TODO: make sure that all assignments are correct!
+		// this may require that the particle does NOT keep track of its cluster...
+		return null;
 	}
 	
-	
+	/**
+	 * Prints a representation of the swarm for testing purposes
+	 */
+	public void print(){
+		for (int i = 0; i < swarm.size(); i++){
+			System.out.print(i + " ~ ");
+			swarm.get(i).print();
+			System.out.println();
+		}
+	}
 	
 	
 }
