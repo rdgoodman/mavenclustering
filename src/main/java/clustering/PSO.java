@@ -64,8 +64,8 @@ public class PSO {
 		int count = 0;
 		double minGlobalFitness = Double.MAX_VALUE;
 		
-		while (count < 2) {	
-			System.out.println(">>>>>>>>>> ITERATION " + count + " <<<<<<<<");
+		while (count < 100) {	
+			//System.out.println(">>>>>>>>>> ITERATION " + count + " <<<<<<<<");
 			int pcount = 0;
 			for (Particle p : swarm) {
 				// Step 1: evaluate fitness
@@ -84,13 +84,14 @@ public class PSO {
 					gbest_store = p.copyBest();
 					minGlobalFitness = fit;
 					
-					System.out.println("%%%%%%% NEW G BEST %%%%%%%");
+					//System.out.println("%%%%%%% NEW G BEST %%%%%%%");
+					evaluateGBest();
 				}
 
 				// TODO: testing, remove
 				DecimalFormat twoDForm = new DecimalFormat("#.##");
-				System.out.println("Particle " + pcount + " fitness: " + Double.valueOf(twoDForm.format(fit)));
-				System.out.println();
+				//System.out.println("Particle " + pcount + " fitness: " + Double.valueOf(twoDForm.format(fit)));
+				//System.out.println();
 				
 				// Step 3: velocity update
 				p.adjustPosition(calcVelocityUpdate(p));	
@@ -100,12 +101,33 @@ public class PSO {
 			count++;
 		}
 
-		// TODO: make sure that all assignments are correct!
-		// this may require that the particle does NOT keep track of its
-		// cluster...
-
-		// TODO: reassign/reevaluate g_best & return
-		return null;
+		// reassign/reevaluate g_best & return
+		System.out.println("RETURN: ");
+		return evaluateGBest().getClusters();
+	}
+	
+	
+	/**
+	 * Constructs a full solution out of stored info on global best
+	 */
+	private Particle evaluateGBest(){
+		ArrayList<Cluster> solution = new ArrayList<Cluster>();
+		
+		for (int c = 0; c < gbest_store.size(); c++){
+			solution.add(new Cluster(gbest_store.get(c), c));
+		}
+		
+		Particle p = new Particle(solution);
+		
+		for (Datum z : data) {
+			int cluster = p.findBestCluster(z);
+			// TODO: testing, remove
+			//System.out.println(z.getData().get(0) + " belongs in " + cluster);
+		}
+		double fit = p.calcFitness(data);
+		System.out.println("Best fitness: " + fit);
+		
+		return p;
 	}
 	
 	/**

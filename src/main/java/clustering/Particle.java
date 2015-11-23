@@ -42,6 +42,16 @@ public class Particle {
 		bestFitness = Double.MAX_VALUE;
 		// TODO: set initial best fitness
 	}
+	
+	/**
+	 * Overloaded for reconstructing solution
+	 */
+	public Particle(ArrayList<Cluster> centroids){
+		this.centroids = centroids;
+		this.numClusters = centroids.size();
+		this.numDimensions = centroids.get(0).getCentroid().size();
+	}
+	
 
 	/**
 	 * Randomly initializes particle position in the search space
@@ -153,7 +163,7 @@ public class Particle {
 
 		// handle personal best - recall, this is a min problem
 		if (fitness < bestFitness) {
-			System.out.println("%%%%%%% NEW P BEST %%%%%%%");
+			//System.out.println("%%%%%%% NEW P BEST %%%%%%%");
 			bestFitness = fitness;
 			pbest_store = copyBest();
 		}
@@ -220,6 +230,10 @@ public class Particle {
 			p.add(centroids.get(c).getCentroid());
 		}
 		return p;
+	}
+	
+	protected ArrayList<Cluster> getClusters(){
+		return centroids;
 	}
 
 	public void setPersonalBest(ArrayList<ArrayList<Double>> b) {

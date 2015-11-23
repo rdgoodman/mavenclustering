@@ -64,7 +64,7 @@ public class PSOTest {
 		data.add(d2);
 		data.add(d3);
 		
-		PSO pso = new PSO(0.5, 0.5, 0.5, 10, 3, d1.getData().size());
+		PSO pso = new PSO(0.8, 0.8, 0.8, 10, 3, d1.getData().size());
 		pso.print();
 		pso.run(data);
 	}
