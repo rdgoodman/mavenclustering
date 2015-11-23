@@ -9,7 +9,7 @@ public class PSO {
 	private double omega;
 	private double phi1;
 	private double phi2;
-	private ArrayList<Double> pg;
+	private double kappa;
 	private ArrayList<Datum> data;
 	private ArrayList<ArrayList<Double>> gbest_store;
 	private int numDimensions;
@@ -28,11 +28,15 @@ public class PSO {
 	 *            number of clusters desired
 	 * @param numDimensions
 	 *            length of input vector
+	 * @param kappa
+	 * 			  used for constriction coefficient
 	 */
-	public PSO(double omega, double phi1, double phi2, int swarmSize, int numClusters, int numDimensions) {
+	public PSO(double omega, double phi1, double phi2, int swarmSize, int numClusters, int numDimensions, double kappa) {
 		this.omega = omega;
 		this.phi1 = phi1;
 		this.phi2 = phi2;
+		this.kappa = kappa;
+		
 		swarm = new ArrayList<Particle>();
 		this.numDimensions = numDimensions;
 		initSwarm(swarmSize, numClusters, numDimensions);
@@ -89,12 +93,12 @@ public class PSO {
 				}
 
 				// TODO: testing, remove
-				DecimalFormat twoDForm = new DecimalFormat("#.##");
+				//DecimalFormat twoDForm = new DecimalFormat("#.##");
 				//System.out.println("Particle " + pcount + " fitness: " + Double.valueOf(twoDForm.format(fit)));
 				//System.out.println();
 				
 				// Step 3: velocity update
-				p.adjustPosition(calcVelocityUpdate(p));	
+				p.adjustPosition(calcVelocityUpdate(p), kappa, phi1 + phi2);	
 				
 				pcount++;
 			}

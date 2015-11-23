@@ -40,7 +40,6 @@ public class Particle {
 		// initial best position
 		pbest_store = copyBest();
 		bestFitness = Double.MAX_VALUE;
-		// TODO: set initial best fitness
 	}
 	
 	/**
@@ -137,7 +136,6 @@ public class Particle {
 	 * Empties the list of points assigned to each cluster
 	 */
 	protected void clearClusters() {
-		// TODO: call before assignment in PSO class
 		for (Cluster c : centroids) {
 			c.clear();
 		}
@@ -154,7 +152,6 @@ public class Particle {
 		double sum = 0;
 		for (Cluster c : centroids) {
 			for (Datum d : c.getPts()) {
-				// TODO: make sure this index is correct!!!
 				sum += (calcDistToCentroid(c.getIndex(), d.getData()) / c.getPts().size());
 			}
 		}
@@ -176,11 +173,25 @@ public class Particle {
 	/**
 	 * Updates position based on velocity update
 	 */
-	protected void adjustPosition(ArrayList<ArrayList<Double>> velocityUpdate){
-		// TODO: handle velocity clamping or something
+	protected void adjustPosition(ArrayList<ArrayList<Double>> velocityUpdate, double kappa, double phi){
+		// don't wanna divide by 0
+		if (phi < 4){
+			phi = 4;
+		} 
+		if (kappa > 1){
+			kappa = 1;
+		} else if (kappa < 0){
+			kappa = 0;
+		}
+		
+		// constriction coefficient (velocity control)
+		double chi = (2 * kappa);
+		double denominator = 2 - phi - Math.sqrt(Math.sqrt(phi) * (phi-4));		
+		chi = chi/denominator;
+
 		for (int c = 0; c < numClusters; c++){
 			for (int d = 0; d < numDimensions; d++){
-				centroids.get(c).getCentroid().set(d, velocityUpdate.get(c).get(d));
+				centroids.get(c).getCentroid().set(d, velocityUpdate.get(c).get(d) * chi);
 			}
 		}
 	}
@@ -237,7 +248,6 @@ public class Particle {
 	}
 
 	public void setPersonalBest(ArrayList<ArrayList<Double>> b) {
-		// TODO: also set personal best fitness, reassign
 		this.pbest_store = b;
 	}
 
