@@ -17,6 +17,22 @@ public class Cluster {
 		pts = new ArrayList<Datum>();
 		this.index = index;
 	}
+	
+	/**
+	 * Removes points from this cluster
+	 */
+	public void clear(){
+		pts.clear();
+	}
+	
+	/**
+	 * Adds a Datum (vector/point) to this cluster
+	 */
+	public void addPoint(Datum d){
+		pts.add(d);
+		// since the dependence goes both ways...
+		d.assignToCluster(this);
+	}
 
 	public ArrayList<Double> getCentroid() {
 		return centroid;

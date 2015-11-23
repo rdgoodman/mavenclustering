@@ -45,7 +45,7 @@ public class PSO {
 		// Step 1
 		for (Particle p : swarm){
 			for (Datum z : data){
-				p.findBestCluster(z.getData());				
+				p.findBestCluster(z);				
 			}
 			p.calcFitness(data);
 		}

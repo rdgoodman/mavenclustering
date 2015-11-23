@@ -53,22 +53,35 @@ public class Particle {
 	/**
 	 * Assigns a data vector to the cluster that minimizes the distance from z to the centroid
 	 */
-	protected int findBestCluster(ArrayList<Double> z){
+	protected int findBestCluster(Datum z){
 		// minimization of distance
 		double min = Double.MAX_VALUE;
 		int minIndex = 0;
 		
 		// iterates through all clusters in this particle
 		for (int c = 0; c < numClusters; c++){
-			double dist = calcDistToCentroid(c, z);
+			double dist = calcDistToCentroid(c, z.getData());
 			if (dist < min){
 				dist = min;
 				minIndex = c;
 			}
 		}
-		// TODO: we need some way to make this assignment stick 
-		// maybe inputs can be an object that have an additional field, "cluster"?
+
+		// places this datum in the best cluster
+		// (automatically assigns in other direction too)
+		centroids.get(minIndex).addPoint(z);	
+		
 		return minIndex;
+	}
+	
+	/**
+	 * Empties the list of points assigned to each cluster
+	 */
+	private void clearClusters(){
+		// TODO: call before assignment in PSO class
+		for (Cluster c : centroids){
+			c.clear();
+		}
 	}
 	
 	/**
@@ -90,11 +103,17 @@ public class Particle {
 	 * @return
 	 */
 	protected double calcFitness(ArrayList<Datum> data){
-		// TODO: see "Data Clustering using Particle Swarm Optimization"
-		
-		
-		
-		return -1;
+		// see "Data Clustering using Particle Swarm Optimization"
+		// equation 8
+		double sum = 0;
+		for (Cluster c : centroids){
+			for (Datum d : c.getPts()){
+				// TODO: make sure this index is correct!!!
+				sum += (calcDistToCentroid(c.getIndex(), d.getData())/c.getPts().size());				
+			}
+		}
+		// divide by number of clusters
+		return (sum / centroids.size());
 	}
 	
 	protected double getPersonalBestFitness(){
