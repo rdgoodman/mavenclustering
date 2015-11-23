@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import org.junit.Test;
 
 import clustering.Datum;
+import clustering.PSO;
 
 public class PSOTest {
 
@@ -28,6 +29,9 @@ public class PSOTest {
 		Datum d1 = new Datum(a1);
 		Datum d2 = new Datum(a1);
 		Datum d3 = new Datum(a1);
+		
+		PSO pso = new PSO(0.5, 0.5, 0.5, 10, 3, d1.getData().size());
+		pso.print();
 
 	}
 

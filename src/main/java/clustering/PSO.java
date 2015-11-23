@@ -53,8 +53,16 @@ public class PSO {
 		return null;
 	}
 	
-	
-	
+	/**
+	 * Prints a representation of the swarm for testing purposes
+	 */
+	public void print(){
+		for (int i = 0; i < swarm.size(); i++){
+			System.out.print(i + " ~ ");
+			swarm.get(i).print();
+			System.out.println();
+		}
+	}
 	
 	
 }

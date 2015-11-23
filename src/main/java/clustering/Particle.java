@@ -129,7 +129,7 @@ public class Particle {
 	 */
 	public void print(){
 		DecimalFormat twoDForm = new DecimalFormat("#.##");
-		System.out.println("PARTICLE:");
+		System.out.println("PARTICLE: " + fitness);
 		for (int i = 0; i < numClusters; i++){
 			System.out.print("Cluster " + i + ": ");
 			for (int j = 0; j < numDimensions; j++){
