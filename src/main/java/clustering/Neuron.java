@@ -12,6 +12,7 @@ public class Neuron {
 	double output;
 	double eta;
 	boolean competeUnit;
+	boolean used = false;
 	
 	/**
 	 * Creates a new neuron for a competitive learning neural network
@@ -111,7 +112,14 @@ public class Neuron {
 	public ArrayList<Double> getInputs(){
 		return inputs;
 	}
-		
+	
+	public void setUsed(){
+		this.used = true;
+	}
+	
+	public boolean getUsed(){
+		return used;
+	}
 	
 	public String toString(){
 		DecimalFormat twoDForm = new DecimalFormat("#.##");
