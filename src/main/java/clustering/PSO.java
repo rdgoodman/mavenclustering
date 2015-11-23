@@ -140,6 +140,7 @@ public class PSO {
 	protected ArrayList<ArrayList<Double>> calcVelocityUpdate(Particle p){		
 		ArrayList<ArrayList<Double>> velocity = new ArrayList<ArrayList<Double>>();		
 		ArrayList<ArrayList<Double>> position = p.getPosition();
+		ArrayList<ArrayList<Double>> v_old = p.getVelocity();
 		ArrayList<ArrayList<Double>> pbest = p.getPersonalBest();
 		
 		// calculates position update for each dimension of each cluster
@@ -147,7 +148,7 @@ public class PSO {
 			ArrayList<Double> v = new ArrayList<Double>();
 			for (int d = 0; d < position.get(c).size(); d++){
 				// TODO vi and xi are not the same
-				double momentum = omega * position.get(c).get(d);
+				double momentum = omega * v_old.get(c).get(d);
 				double social = Math.random() * phi1 * (gbest_store.get(c).get(d) - position.get(c).get(d));
 				double global = Math.random() * phi2 * (pbest.get(c).get(d) - position.get(c).get(d));
 				v.add(momentum + social + global);

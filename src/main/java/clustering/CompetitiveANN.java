@@ -53,11 +53,13 @@ public class CompetitiveANN {
 	}
 
 	/**
-	 * 
-	 * @return
+	 * Runs train and test process given two (non-overlapping) datasets
+	 * @param train Training set
+	 * @param test Test set
+	 * @return Clustered data
 	 */
 	public ArrayList<Cluster> run(ArrayList<Datum> train, ArrayList<Datum> test){
-		// first training
+		// first train
 		for (Datum d : train){
 			// set inputs
 			setInputs(d.getData());
@@ -65,9 +67,10 @@ public class CompetitiveANN {
 		}
 		training = false;
 		
-		// TODO: trim off unused nodes
+		// trim off unused compete nodes
+		prune();
 		
-		// then testing
+		// then test
 		ArrayList<Cluster> clusters = new ArrayList<Cluster>();
 		for(Datum d : test){
 			setInputs(d.getData());
@@ -141,8 +144,6 @@ public class CompetitiveANN {
 	 * Propagates inputs through network
 	 */
 	public int generateOutputs() {
-		// TODO: will eventually need to return something other than "void"
-
 		// find "winner"
 		int maxIndex = 0;
 		double max = Double.MIN_VALUE;
@@ -160,14 +161,38 @@ public class CompetitiveANN {
 
 		if (training) {
 			// update winner's weights
-			// TODO: this should probably eventually be called in another
-			// function for training
+			nodes.get(1).get(maxIndex).setUsed();
 			nodes.get(1).get(maxIndex).updateWeights();
 		}
 
 		return maxIndex;
 
 	}
+	
+	
+	/**
+	 * Removes nodes/clusters that never have their weights updated
+	 */
+	private void prune(){
+		ArrayList<Neuron> toPrune = new ArrayList<Neuron>();
+		for (Neuron n : nodes.get(1)){
+			if (!n.isUsed()){
+				System.out.println("Not used");
+				// remove connections
+				for (Neuron p : n.getParents()){
+					p.getChildren().remove(n);
+					n.getParents().remove(p);
+				}
+				toPrune.add(n);
+			}
+		}
+		// remove node from network entirely
+		for (Neuron n : toPrune){
+			nodes.get(1).remove(n);
+		}
+		
+	}
+	
 
 	/**
 	 * Prints net for testing purposes

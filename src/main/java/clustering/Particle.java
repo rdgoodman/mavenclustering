@@ -174,6 +174,8 @@ public class Particle {
 	 * Updates position based on velocity update
 	 */
 	protected void adjustPosition(ArrayList<ArrayList<Double>> velocityUpdate, double kappa, double phi){
+		velocity = velocityUpdate;
+		
 		// don't wanna divide by 0
 		if (phi < 4){
 			phi = 4;
@@ -249,6 +251,14 @@ public class Particle {
 
 	public void setPersonalBest(ArrayList<ArrayList<Double>> b) {
 		this.pbest_store = b;
+	}
+
+	public ArrayList<ArrayList<Double>> getVelocity() {
+		return velocity;
+	}
+
+	public void setVelocity(ArrayList<ArrayList<Double>> velocity) {
+		this.velocity = velocity;
 	}
 
 	/**

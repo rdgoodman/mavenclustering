@@ -117,8 +117,16 @@ public class Neuron {
 		this.used = true;
 	}
 	
-	public boolean getUsed(){
+	public boolean isUsed(){
 		return used;
+	}
+	
+	public ArrayList<Neuron> getParents(){
+		return parents;
+	}
+	
+	public ArrayList<Neuron> getChildren(){
+		return children;
 	}
 	
 	public String toString(){
