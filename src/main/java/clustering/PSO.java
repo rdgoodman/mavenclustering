@@ -21,7 +21,6 @@ public class PSO {
 	 * @param numDimensions length of input vector
 	 */
 	public PSO(double omega, double phi1, double phi2, int swarmSize, int numClusters, int numDimensions) {
-		// TODO: will need to take (and maybe normalize?) training data
 		this.omega = omega;
 		this.phi1 = phi1;
 		this.phi2 = phi2;
@@ -38,9 +37,11 @@ public class PSO {
 		}
 	}
 	
-	private void run(){
-		// TODO: should return something other than "void"
-		// should, in fact, return a set of Clusters corresponding to winning Particle
+	private ArrayList<Cluster> run(ArrayList<Datum> data){
+		// returns a set of Clusters corresponding to winning Particle
+		
+		// TODO: do we need to normalize the data?
+		this.data = data;
 		
 		// Step 1
 		for (Particle p : swarm){
@@ -49,7 +50,9 @@ public class PSO {
 			}
 			p.calcFitness(data);
 		}
+		return null;
 	}
+	
 	
 	
 	
