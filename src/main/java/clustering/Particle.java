@@ -18,6 +18,8 @@ public class Particle {
 	// personal best position
 	private ArrayList<ArrayList<Double>> pbest_store;
 	private double bestFitness;
+	
+	ArrayList<ArrayList<Double>> velocity;
 
 	/**
 	 * Initializes a single candidate solution
@@ -31,6 +33,8 @@ public class Particle {
 		this.numClusters = numClusters;
 		centroids = new ArrayList<Cluster>();
 		this.numDimensions = numDimensions;
+		velocity = new ArrayList<ArrayList<Double>>();
+		initVelocity();
 
 		initialize();
 		// initial best position
@@ -56,6 +60,19 @@ public class Particle {
 				}
 			}
 			centroids.add(new Cluster(vector, c));
+		}
+	}
+	
+	/**
+	 * Initializes velocities to zero
+	 */
+	private void initVelocity(){
+		for (int c = 0; c < numClusters; c++){
+			ArrayList<Double> v = new ArrayList<Double>();
+			for (int d = 0; d < numDimensions; d++){
+				v.add(0.0);
+			}
+			velocity.add(v);
 		}
 	}
 
@@ -141,6 +158,14 @@ public class Particle {
 		// divide by number of clusters
 		return (sum / centroids.size());
 	}
+	
+	
+	/**
+	 * Updates position based on velocity update
+	 */
+	protected void adjustPosition(ArrayList<ArrayList<Double>> velocityUpdate){
+		// TODO: handle velocity clamping or something
+	}
 
 	/**
 	 * Copies the centroids associated with the best cluster
@@ -179,6 +204,14 @@ public class Particle {
 
 	protected ArrayList<ArrayList<Double>> getPersonalBest() {
 		return pbest_store;
+	}
+	
+	protected ArrayList<ArrayList<Double>> getPosition() {
+		ArrayList<ArrayList<Double>> p = new ArrayList<ArrayList<Double>>();
+		for (int c = 0; c < numClusters; c++){
+			p.add(centroids.get(c).getCentroid());
+		}
+		return p;
 	}
 
 	public void setPersonalBest(ArrayList<ArrayList<Double>> b) {

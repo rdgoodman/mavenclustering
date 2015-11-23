@@ -12,6 +12,7 @@ public class PSO {
 	private ArrayList<Double> pg;
 	private ArrayList<Datum> data;
 	private ArrayList<ArrayList<Double>> gbest_store;
+	private int numDimensions;
 
 	/**
 	 * 
@@ -33,6 +34,7 @@ public class PSO {
 		this.phi1 = phi1;
 		this.phi2 = phi2;
 		swarm = new ArrayList<Particle>();
+		this.numDimensions = numDimensions;
 		initSwarm(swarmSize, numClusters, numDimensions);
 	}
 
@@ -60,38 +62,36 @@ public class PSO {
 
 		//while (!terminationCriterionMet()) {
 		int count = 0;
-		while (count < 1) {
-
-			// Step 1: evaluate fitness
-			double minGlobalFitness = Double.MAX_VALUE;
+		double minGlobalFitness = Double.MAX_VALUE;
+		
+		while (count < 1) {			
 			for (Particle p : swarm) {
+				// Step 1: evaluate fitness
 				for (Datum z : data) {
 					int cluster = p.findBestCluster(z);
 					// TODO: testing, remove
 					System.out.println(z.getData().get(0) + " belongs in " + cluster);
 				}
-
 				double fit = p.calcFitness(data);
 				
-				// update global best
+				// Step 2: update global best
 				// note: local best taken care of in fitness evaluation within particle
 				if (fit < minGlobalFitness) {
 					// this particle is the new global best
 					gbest_store = p.copyBest();
 					minGlobalFitness = fit;
 					
-					System.out.println("%%%%%%% NEW BEST %%%%%%%");
+					System.out.println("%%%%%%% NEW G BEST %%%%%%%");
 				}
 
 				// TODO: testing, remove
 				DecimalFormat twoDForm = new DecimalFormat("#.##");
 				System.out.println("Particle fitness: " + Double.valueOf(twoDForm.format(fit)));
 				System.out.println();
+				
+				// Step 3: velocity update
+				p.adjustPosition(calcVelocityUpdate(p));				
 			}
-
-			// Step 3: velocity update
-			// TODO
-
 			count++;
 		}
 
@@ -100,10 +100,31 @@ public class PSO {
 		// cluster...
 
 		// TODO: reassign/reevaluate g_best & return
-
 		return null;
 	}
 	
+	/**
+	 * Calculates particle velocity update
+	 */
+	protected ArrayList<ArrayList<Double>> calcVelocityUpdate(Particle p){		
+		ArrayList<ArrayList<Double>> velocity = new ArrayList<ArrayList<Double>>();		
+		ArrayList<ArrayList<Double>> position = p.getPosition();
+		ArrayList<ArrayList<Double>> pbest = p.getPersonalBest();
+		
+		// calculates position update for each dimension of each cluster
+		for (int c = 0; c < position.size(); c++){
+			ArrayList<Double> v = new ArrayList<Double>();
+			for (int d = 0; d < position.get(c).size(); d++){
+				// TODO vi and xi are not the same
+				double momentum = omega * position.get(c).get(d);
+				double social = Math.random() * phi1 * (gbest_store.get(c).get(d) - position.get(c).get(d));
+				double global = Math.random() * phi2 * (pbest.get(c).get(d) - position.get(c).get(d));
+				v.add(momentum + social + global);
+			}
+			velocity.add(v);
+		}
+		return velocity;
+	}
 	
 	private boolean terminationCriterionMet(){
 		// TODO: decide on termination criterion
