@@ -154,11 +154,17 @@ public class Particle {
 		}
 		
 		// TODO: testing, remove
-		
-		
+		print();
+		DecimalFormat twoDForm = new DecimalFormat("#.##");
+		System.out.println("Best stored:");
+		for (int i = 0; i < b.size(); i++){
+			for (int j = 0; j < b.get(i).size(); j++){
+				System.out.print(Double.valueOf(twoDForm.format(b.get(i).get(j))) + " ");
+			}
+			System.out.println();
+		}
 		return b;
 	}
-	
 
 	protected double getPersonalBestFitness() {
 		return bestFitness;
@@ -166,6 +172,11 @@ public class Particle {
 
 	protected ArrayList<ArrayList<Double>> getPersonalBest() {
 		return pbest_store;
+	}
+	
+	public void setPersonalBest(ArrayList<ArrayList<Double>> b){
+		// TODO: also set personal best fitness, reassign
+		this.pbest_store = b;
 	}
 	
 
