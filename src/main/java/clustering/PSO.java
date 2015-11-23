@@ -37,7 +37,12 @@ public class PSO {
 		}
 	}
 	
-	private ArrayList<Cluster> run(ArrayList<Datum> data){
+	/**
+	 * Runs the optimization given a set of data to cluster
+	 * @param data the data vectors to cluster
+	 * @return best clustering
+	 */
+	public ArrayList<Cluster> run(ArrayList<Datum> data){
 		// returns a set of Clusters corresponding to winning Particle
 		
 		// TODO: do we need to normalize the data?
@@ -46,10 +51,17 @@ public class PSO {
 		// Step 1
 		for (Particle p : swarm){
 			for (Datum z : data){
-				p.findBestCluster(z);				
+				int cluster = p.findBestCluster(z);
+				System.out.println(cluster);				
 			}
-			p.calcFitness(data);
+			
+			double fit = p.calcFitness(data);
+			System.out.println("Particle fitness: " + fit);
+			System.out.println();
 		}
+		
+		// TODO: make sure that all assignments are correct!
+		// this may require that the particle does NOT keep track of its cluster...
 		return null;
 	}
 	
