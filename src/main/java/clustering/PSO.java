@@ -1,5 +1,6 @@
 package clustering;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 
 public class PSO {
@@ -71,6 +72,9 @@ public class PSO {
 				}
 
 				double fit = p.calcFitness(data);
+				
+				// update global best
+				// note: local best taken care of in fitness evaluation within particle
 				if (fit < minGlobalFitness) {
 					// this particle is the new global best
 					gbest_store = p.copyBest();
@@ -80,12 +84,10 @@ public class PSO {
 				}
 
 				// TODO: testing, remove
-				System.out.println("Particle fitness: " + fit);
+				DecimalFormat twoDForm = new DecimalFormat("#.##");
+				System.out.println("Particle fitness: " + Double.valueOf(twoDForm.format(fit)));
 				System.out.println();
 			}
-
-			// Step 2:
-			// TODO: update global and local bests
 
 			// Step 3: velocity update
 			// TODO

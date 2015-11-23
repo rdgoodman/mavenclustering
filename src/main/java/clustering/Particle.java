@@ -35,9 +35,7 @@ public class Particle {
 		initialize();
 		// initial best position
 		pbest_store = copyBest();
-		
 	}
-	
 
 	/**
 	 * Randomly initializes particle position in the search space
@@ -73,10 +71,10 @@ public class Particle {
 		// iterates through all clusters in this particle
 		for (int c = 0; c < numClusters; c++) {
 			double dist = calcDistToCentroid(c, z.getData());
-			//System.out.println(c + " dist: " + dist);
+			// System.out.println(c + " dist: " + dist);
 			// finds minimum distance
 			if (dist < min) {
-				//System.out.println("changed");
+				// System.out.println("changed");
 				min = dist;
 				minIndex = c;
 			}
@@ -105,7 +103,6 @@ public class Particle {
 		sum = Math.sqrt(sum);
 		return sum;
 	}
-	
 
 	/**
 	 * Empties the list of points assigned to each cluster
@@ -133,36 +130,46 @@ public class Particle {
 				sum += (calcDistToCentroid(c.getIndex(), d.getData()) / c.getPts().size());
 			}
 		}
+
+		// handle personal best - recall, this is a min problem
+		if (fitness < bestFitness) {
+			System.out.println(">>> Changed personal best");
+			bestFitness = fitness;
+			pbest_store = copyBest();
+		}
+
 		// divide by number of clusters
 		return (sum / centroids.size());
 	}
-	
+
 	/**
 	 * Copies the centroids associated with the best cluster
+	 * 
 	 * @return
 	 */
-	public ArrayList<ArrayList<Double>> copyBest(){
-		ArrayList<ArrayList<Double>> b = new ArrayList<ArrayList<Double>>();		
+	public ArrayList<ArrayList<Double>> copyBest() {
+		ArrayList<ArrayList<Double>> b = new ArrayList<ArrayList<Double>>();
 		// copies one centroid at a time
-		for (int c = 0; c < numClusters; c++){
+		for (int c = 0; c < numClusters; c++) {
 			ArrayList<Double> centroidCopy = new ArrayList<Double>();
-			for (int d = 0; d < numDimensions; d++){
+			for (int d = 0; d < numDimensions; d++) {
 				// copies dimension d from centroid c
 				centroidCopy.add(centroids.get(c).getCentroid().get(d));
 			}
 			b.add(centroidCopy);
 		}
-		
+
 		// TODO: testing, remove
-		print();
-		DecimalFormat twoDForm = new DecimalFormat("#.##");
-		System.out.println("Best stored:");
-		for (int i = 0; i < b.size(); i++){
-			for (int j = 0; j < b.get(i).size(); j++){
-				System.out.print(Double.valueOf(twoDForm.format(b.get(i).get(j))) + " ");
-			}
-			System.out.println();
-		}
+		// print();
+		// DecimalFormat twoDForm = new DecimalFormat("#.##");
+		// System.out.println("Best stored:");
+		// for (int i = 0; i < b.size(); i++){
+		// for (int j = 0; j < b.get(i).size(); j++){
+		// System.out.print(Double.valueOf(twoDForm.format(b.get(i).get(j))) + "
+		// ");
+		// }
+		// System.out.println();
+		// }
 		return b;
 	}
 
@@ -173,12 +180,11 @@ public class Particle {
 	protected ArrayList<ArrayList<Double>> getPersonalBest() {
 		return pbest_store;
 	}
-	
-	public void setPersonalBest(ArrayList<ArrayList<Double>> b){
+
+	public void setPersonalBest(ArrayList<ArrayList<Double>> b) {
 		// TODO: also set personal best fitness, reassign
 		this.pbest_store = b;
 	}
-	
 
 	/**
 	 * Prints a representation of the particle, for testing purposes only
