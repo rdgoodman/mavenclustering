@@ -52,10 +52,12 @@ public class PSO {
 		for (Particle p : swarm){
 			for (Datum z : data){
 				int cluster = p.findBestCluster(z);
-				System.out.println(cluster);				
+				// TODO: testing, remove
+				System.out.println(z.getData().get(0) + " belongs in " + cluster);				
 			}
 			
 			double fit = p.calcFitness(data);
+			// TODO: testing, remove
 			System.out.println("Particle fitness: " + fit);
 			System.out.println();
 		}

@@ -88,16 +88,6 @@ public class Particle {
 	}
 
 	/**
-	 * Empties the list of points assigned to each cluster
-	 */
-	private void clearClusters() {
-		// TODO: call before assignment in PSO class
-		for (Cluster c : centroids) {
-			c.clear();
-		}
-	}
-
-	/**
 	 * Calculates Euclidean distance to the index-th centroid in this particle
 	 * 
 	 * @param index
@@ -112,6 +102,17 @@ public class Particle {
 		}
 		sum = Math.sqrt(sum);
 		return sum;
+	}
+	
+
+	/**
+	 * Empties the list of points assigned to each cluster
+	 */
+	private void clearClusters() {
+		// TODO: call before assignment in PSO class
+		for (Cluster c : centroids) {
+			c.clear();
+		}
 	}
 
 	/**

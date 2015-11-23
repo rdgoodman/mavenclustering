@@ -27,8 +27,8 @@ public class PSOTest {
 		//a3.add(-0.33);
 		
 		Datum d1 = new Datum(a1);
-		Datum d2 = new Datum(a1);
-		Datum d3 = new Datum(a1);
+		Datum d2 = new Datum(a2);
+		Datum d3 = new Datum(a3);
 		ArrayList<Datum> data = new ArrayList<Datum>();
 		data.add(d1);
 		data.add(d2);
