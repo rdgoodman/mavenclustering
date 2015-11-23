@@ -16,7 +16,7 @@ public class Particle {
 	private double fitness;
 
 	// personal best position
-	private ArrayList<Cluster> best;
+	private ArrayList<ArrayList<Double>> pbest_store;
 	private double bestFitness;
 
 	/**
@@ -34,8 +34,10 @@ public class Particle {
 
 		initialize();
 		// initial best position
-		best = centroids;
+		pbest_store = copyBest();
+		
 	}
+	
 
 	/**
 	 * Randomly initializes particle position in the search space
@@ -113,6 +115,7 @@ public class Particle {
 		for (Cluster c : centroids) {
 			c.clear();
 		}
+		// TODO: won't this just fuck everything up...?
 	}
 
 	/**
@@ -133,14 +136,38 @@ public class Particle {
 		// divide by number of clusters
 		return (sum / centroids.size());
 	}
+	
+	/**
+	 * Copies the centroids associated with the best cluster
+	 * @return
+	 */
+	public ArrayList<ArrayList<Double>> copyBest(){
+		ArrayList<ArrayList<Double>> b = new ArrayList<ArrayList<Double>>();		
+		// copies one centroid at a time
+		for (int c = 0; c < numClusters; c++){
+			ArrayList<Double> centroidCopy = new ArrayList<Double>();
+			for (int d = 0; d < numDimensions; d++){
+				// copies dimension d from centroid c
+				centroidCopy.add(centroids.get(c).getCentroid().get(d));
+			}
+			b.add(centroidCopy);
+		}
+		
+		// TODO: testing, remove
+		
+		
+		return b;
+	}
+	
 
 	protected double getPersonalBestFitness() {
 		return bestFitness;
 	}
 
-	protected ArrayList<Cluster> getPersonalBest() {
-		return best;
+	protected ArrayList<ArrayList<Double>> getPersonalBest() {
+		return pbest_store;
 	}
+	
 
 	/**
 	 * Prints a representation of the particle, for testing purposes only
