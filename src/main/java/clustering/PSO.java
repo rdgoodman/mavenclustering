@@ -64,15 +64,18 @@ public class PSO {
 		int count = 0;
 		double minGlobalFitness = Double.MAX_VALUE;
 		
-		while (count < 1) {			
+		while (count < 2) {	
+			System.out.println(">>>>>>>>>> ITERATION " + count + " <<<<<<<<");
+			int pcount = 0;
 			for (Particle p : swarm) {
 				// Step 1: evaluate fitness
 				for (Datum z : data) {
 					int cluster = p.findBestCluster(z);
 					// TODO: testing, remove
-					System.out.println(z.getData().get(0) + " belongs in " + cluster);
+					//System.out.println(z.getData().get(0) + " belongs in " + cluster);
 				}
 				double fit = p.calcFitness(data);
+				p.clearClusters();
 				
 				// Step 2: update global best
 				// note: local best taken care of in fitness evaluation within particle
@@ -86,11 +89,13 @@ public class PSO {
 
 				// TODO: testing, remove
 				DecimalFormat twoDForm = new DecimalFormat("#.##");
-				System.out.println("Particle fitness: " + Double.valueOf(twoDForm.format(fit)));
+				System.out.println("Particle " + pcount + " fitness: " + Double.valueOf(twoDForm.format(fit)));
 				System.out.println();
 				
 				// Step 3: velocity update
-				p.adjustPosition(calcVelocityUpdate(p));				
+				p.adjustPosition(calcVelocityUpdate(p));	
+				
+				pcount++;
 			}
 			count++;
 		}

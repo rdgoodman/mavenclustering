@@ -39,6 +39,8 @@ public class Particle {
 		initialize();
 		// initial best position
 		pbest_store = copyBest();
+		bestFitness = Double.MAX_VALUE;
+		// TODO: set initial best fitness
 	}
 
 	/**
@@ -124,12 +126,11 @@ public class Particle {
 	/**
 	 * Empties the list of points assigned to each cluster
 	 */
-	private void clearClusters() {
+	protected void clearClusters() {
 		// TODO: call before assignment in PSO class
 		for (Cluster c : centroids) {
 			c.clear();
 		}
-		// TODO: won't this just fuck everything up...?
 	}
 
 	/**
@@ -147,16 +148,18 @@ public class Particle {
 				sum += (calcDistToCentroid(c.getIndex(), d.getData()) / c.getPts().size());
 			}
 		}
+		
+		double fitness = sum / centroids.size();
 
 		// handle personal best - recall, this is a min problem
 		if (fitness < bestFitness) {
-			System.out.println(">>> Changed personal best");
+			System.out.println("%%%%%%% NEW P BEST %%%%%%%");
 			bestFitness = fitness;
 			pbest_store = copyBest();
 		}
 
 		// divide by number of clusters
-		return (sum / centroids.size());
+		return fitness;
 	}
 	
 	
@@ -165,6 +168,11 @@ public class Particle {
 	 */
 	protected void adjustPosition(ArrayList<ArrayList<Double>> velocityUpdate){
 		// TODO: handle velocity clamping or something
+		for (int c = 0; c < numClusters; c++){
+			for (int d = 0; d < numDimensions; d++){
+				centroids.get(c).getCentroid().set(d, velocityUpdate.get(c).get(d));
+			}
+		}
 	}
 
 	/**
