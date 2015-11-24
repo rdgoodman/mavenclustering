@@ -10,7 +10,7 @@ public class CompetitiveANN {
 	// TODO: testing -> prune out nodes that have never had a weight update,
 	// then run instances through and assign to clusters associated with nodes
 
-	private int numInputs;
+	private int numDimensions;
 	private double eta;
 	private int numOutputs;
 	private ArrayList<ArrayList<Neuron>> nodes;
@@ -24,23 +24,24 @@ public class CompetitiveANN {
 	 * 
 	 * @param eta
 	 *            learning rate
-	 * @param numInputs
-	 *            number of inputs (size)
+	 * @param numDim
+	 *            Size of input vector (dimensions)
 	 * @param numOutputs
 	 *            number of clusters
 	 */
-	public CompetitiveANN(double eta, int numInputs, int numOutputs) {
+	public CompetitiveANN(double eta, int numDim, int numOutputs) {
 		this.eta = eta;
-		this.numInputs = numInputs;
+		this.numDimensions = numDim;
 		this.numOutputs = numOutputs;
 
 		// number of outputs must be =< number of inputs(?) for some reason (see
 		// class notes 10/7)
-		if (numOutputs > numInputs) {
-			numOutputs = numInputs;
+		if (numOutputs > numDim) {
+			numOutputs = numDim;
 		}
 
 		nodes = new ArrayList<ArrayList<Neuron>>();
+		createNetStructure();
 	}
 
 	/**
@@ -48,8 +49,15 @@ public class CompetitiveANN {
 	 */
 	public void setInputs(ArrayList<Double> inputs) {
 		this.inputs = inputs;
-		normalize(inputs);
-		createNetStructure();
+		normalize(this.inputs);
+		giveInputs();
+	}
+	
+	private void giveInputs(){
+		// set output for input nodes
+		for (int i = 0; i < numDimensions; i++) {
+			nodes.get(0).get(i).setOutput(inputs.get(i));
+		}
 	}
 
 	/**
@@ -116,26 +124,22 @@ public class CompetitiveANN {
 		ArrayList<Neuron> competeLayer = new ArrayList<Neuron>();
 
 		// populates input layer
-		for (int i = 0; i < numInputs; i++) {
+		for (int i = 0; i < numDimensions; i++) {
 			inputLayer.add(new Neuron(false, eta));
 			// init weights
-			inputLayer.get(i).initializeWeights(numInputs);
+			inputLayer.get(i).initializeWeights(numDimensions);
 		}
 
 		// populates output layer
 		for (int i = 0; i < numOutputs; i++) {
 			competeLayer.add(new Neuron(true, eta));
 			// init weights
-			competeLayer.get(i).initializeWeights(numInputs);
+			competeLayer.get(i).initializeWeights(numDimensions);
 		}
 
-		// set output for input nodes
-		for (int i = 0; i < numInputs; i++) {
-			inputLayer.get(i).setOutput(inputs.get(i));
-		}
 
 		// connects all input nodes to output nodes & vice versa
-		for (int i = 0; i < numInputs; i++) {
+		for (int i = 0; i < numDimensions; i++) {
 			for (int j = 0; j < numOutputs; j++) {
 				inputLayer.get(i).addChild(competeLayer.get(j));
 				competeLayer.get(j).addParent(inputLayer.get(i));
@@ -208,7 +212,7 @@ public class CompetitiveANN {
 	public void print() {
 		System.out.println();
 		System.out.print("inputs: ");
-		for (int i = 0; i < numInputs; i++) {
+		for (int i = 0; i < numDimensions; i++) {
 			System.out.print(nodes.get(0).get(i));
 		}
 		System.out.println();
