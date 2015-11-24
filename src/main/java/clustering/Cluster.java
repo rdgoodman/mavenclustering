@@ -57,4 +57,15 @@ public class Cluster {
 	public void setIndex(int index) {
 		this.index = index;
 	}
+	
+	public void print(){
+		System.out.println();
+		System.out.println(">>>>> Cluster " + index);
+		System.out.print("   Centroid: <");
+		for (double i : centroid){
+			System.out.print(i + " ");
+		}
+		System.out.print(">");
+		System.out.println("   Elements: " + pts.size());
+	}
 }

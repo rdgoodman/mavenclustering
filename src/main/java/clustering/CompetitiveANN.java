@@ -108,7 +108,10 @@ public class CompetitiveANN {
 			// assign this datum to the cluster
 			clusters.get(index).addPoint(d);
 		}
-				
+		
+		for (Cluster c: clusters){
+			c.print();
+		}
 		return clusters;
 	}
 
