@@ -19,21 +19,12 @@ public class ClusterSet {
 	}
 
 	/**
-	 * Calculates cohesion as within-cluster sum of squares (WCSS)
+	 * Calculates cohesion
 	 */
 	public double calcCohesion() {
 		double coh = 0;
 		for (Cluster c : clusters) {
-			double c_coh = 0;
-			for (Datum d1 : c.getPts()) {
-				for (Datum d2 : c.getPts()) {
-					if (!d1.equals(d2)) {
-						// TODO: double counting
-						c_coh += d1.calcDist(d2);
-					}
-				}
-			}
-			coh += (c_coh / c.getPts().size());
+			coh += calcCoh(c);
 		}
 		return coh;
 	}
@@ -42,21 +33,41 @@ public class ClusterSet {
 	 * Calculates separation
 	 */
 	public double calcSeparation() {
-
 		double sep = 0;
-		for (Cluster c1 : clusters) {
-			for (Cluster c2 : clusters) {
-				if (!c1.equals(c2)) {
-					for (Datum d1 : c1.getPts()) {
-						for (Datum d2 : c2.getPts()) {
-							// TODO: double counting
-							sep += d1.calcDist(d2);
-						}
-					}
-				}
+		for (int i = 0; i < clusters.size(); i++) {
+			for (int j = i + 1; j < clusters.size(); j++) { 
+					sep += calcSep(clusters.get(i), clusters.get(j));
 			}
 		}
+		return sep;
+	}
 
+	/**
+	 * Calculates cohesion within a single cluster
+	 */
+	private double calcCoh(Cluster c) {
+		double c_coh = 0;
+		for (int i = 0; i < c.getPts().size(); i++) {
+			for (int j = i + 1; j < c.getPts().size(); j++) {
+				// calculates distance between all points in cluster
+				c_coh = c.getPts().get(i).calcDist(c.getPts().get(j));
+			}
+		}
+		c_coh += (c_coh / c.getPts().size());
+		return c_coh;
+	}
+
+	/**
+	 * Calculates separation between two clusters
+	 */
+	private double calcSep(Cluster c1, Cluster c2) {
+		double sep = 0;
+		for (int i = 0; i < c1.getPts().size(); i++) {
+			for (int j = i + 1; j < c2.getPts().size(); j++) {
+				// calculates distance from point i in c1 to point j in c2
+				sep += c1.getPts().get(i).calcDist(c2.getPts().get(j));
+			}
+		}
 		return sep;
 	}
 
