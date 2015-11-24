@@ -73,6 +73,8 @@ public class CompetitiveANN {
 
 	/**
 	 * Runs train and test process given two (non-overlapping) datasets
+	 * WARNING: CANNOT INTERPRET RETURNED CLUSTERS' CENTROIDS AS YOU USUALLY WOULD
+	 * 
 	 * @param train Training set
 	 * @param test Test set
 	 * @return Clustered data

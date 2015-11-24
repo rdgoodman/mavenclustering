@@ -33,6 +33,26 @@ public class Cluster {
 		// since the dependence goes both ways...
 		d.assignToCluster(this);
 	}
+	
+	/**
+	 * Calculates the center/mean of the cluster
+	 */
+	public ArrayList<Double> calcMidpoint(){
+		ArrayList<Double> means = new ArrayList<Double>();
+		
+		// find midpoint
+		// for some algorithms, like PSO, this is the basically the centroid anyway
+		for (int d = 0; d < centroid.size(); d++){
+			double sum = 0;
+			for (Datum t : pts){
+				sum += t.getData().get(d);
+			}
+			means.add(sum/centroid.size());
+		}
+		
+		return means;
+	}
+
 
 	public ArrayList<Double> getCentroid() {
 		return centroid;
