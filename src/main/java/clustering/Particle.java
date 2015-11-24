@@ -156,7 +156,7 @@ public class Particle {
 			}
 		}
 		
-		double fitness = sum / centroids.size();
+		fitness = sum / centroids.size();
 
 		// handle personal best - recall, this is a min problem
 		if (fitness < bestFitness) {

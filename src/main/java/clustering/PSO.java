@@ -68,7 +68,7 @@ public class PSO {
 		int count = 0;
 		double minGlobalFitness = Double.MAX_VALUE;
 		
-		while (count < 100) {	
+		while (count < 1000) {	
 			//System.out.println(">>>>>>>>>> ITERATION " + count + " <<<<<<<<");
 			int pcount = 0;
 			for (Particle p : swarm) {
@@ -107,7 +107,9 @@ public class PSO {
 
 		// reassign/reevaluate g_best & return
 		System.out.println("RETURN: ");
-		return evaluateGBest().getClusters();
+		Particle solution = evaluateGBest();
+		solution.print();
+		return solution.getClusters();
 	}
 	
 	

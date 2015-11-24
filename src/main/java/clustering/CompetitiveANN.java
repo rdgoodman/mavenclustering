@@ -72,10 +72,18 @@ public class CompetitiveANN {
 		
 		// then test
 		ArrayList<Cluster> clusters = new ArrayList<Cluster>();
+		
+		// create a cluster for each remaining compete node
+		for (int i = 0; i < nodes.get(1).size(); i++){
+			// TODO: wtf is the centroid...? the weights?
+			clusters.add(new Cluster(nodes.get(1).get(i).getWeights(), i));
+		}
+		
 		for(Datum d : test){
 			setInputs(d.getData());
-			generateOutputs();
-			// TODO: assignment
+			int index = generateOutputs();
+			// assign this datum to the cluster
+			clusters.get(index).addPoint(d);
 		}
 				
 		return clusters;

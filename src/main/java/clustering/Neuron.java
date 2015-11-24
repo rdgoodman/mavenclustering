@@ -105,6 +105,10 @@ public class Neuron {
 		return output;
 	}
 	
+	public ArrayList<Double> getWeights(){
+		return w;
+	}
+	
 	public void addInput(double i){
 		inputs.add(i);
 	}
