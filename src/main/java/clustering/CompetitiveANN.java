@@ -54,9 +54,20 @@ public class CompetitiveANN {
 	}
 	
 	private void giveInputs(){
+		// clear inputs for compete nodes
+		for (Neuron n : nodes.get(1)){
+			n.clearInputs();
+		}
+		
 		// set output for input nodes
 		for (int i = 0; i < numDimensions; i++) {
 			nodes.get(0).get(i).setOutput(inputs.get(i));
+		}
+		// set inputs
+		for(int i = 0; i < nodes.get(0).size(); i++){
+			for (int c = 0; c < nodes.get(1).size(); c++){
+				nodes.get(1).get(c).addInput(nodes.get(0).get(i).getOutput());
+			}
 		}
 	}
 
@@ -68,10 +79,12 @@ public class CompetitiveANN {
 	 */
 	public ArrayList<Cluster> run(ArrayList<Datum> train, ArrayList<Datum> test){
 		// first train
+		System.out.println(">>>>> TRAINING");
 		for (Datum d : train){
 			// set inputs
 			setInputs(d.getData());
-			generateOutputs();
+			int index = generateOutputs();
+			System.out.println("Winner: " + index);
 		}
 		training = false;
 		
@@ -79,6 +92,8 @@ public class CompetitiveANN {
 		prune();
 		
 		// then test
+		System.out.println();
+		System.out.println(">>>>> TESTING");
 		ArrayList<Cluster> clusters = new ArrayList<Cluster>();
 		
 		// create a cluster for each remaining compete node
@@ -137,14 +152,11 @@ public class CompetitiveANN {
 			competeLayer.get(i).initializeWeights(numDimensions);
 		}
 
-
 		// connects all input nodes to output nodes & vice versa
 		for (int i = 0; i < numDimensions; i++) {
 			for (int j = 0; j < numOutputs; j++) {
 				inputLayer.get(i).addChild(competeLayer.get(j));
 				competeLayer.get(j).addParent(inputLayer.get(i));
-				// set inputs
-				competeLayer.get(j).addInput(inputLayer.get(i).getOutput());
 			}
 		}
 
@@ -159,7 +171,7 @@ public class CompetitiveANN {
 		// find "winner"
 		int maxIndex = 0;
 		double max = Double.MIN_VALUE;
-		for (int o = 0; o < numOutputs; o++) {
+		for (int o = 0; o < nodes.get(1).size(); o++) {
 			nodes.get(1).get(o).calcOutput();
 			double op = nodes.get(1).get(o).getOutput();
 			if (op > max) {
@@ -217,7 +229,7 @@ public class CompetitiveANN {
 		}
 		System.out.println();
 		System.out.print("compete: ");
-		for (int i = 0; i < numOutputs; i++) {
+		for (int i = 0; i < nodes.get(1).size(); i++) {
 			System.out.print(nodes.get(1).get(i));
 		}
 		System.out.println();

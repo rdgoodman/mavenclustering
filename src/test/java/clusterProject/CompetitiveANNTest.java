@@ -55,7 +55,7 @@ public class CompetitiveANNTest {
 		Datum d5 = new Datum(a1);
 		Datum d6 = new Datum(a1);
 		
-		CompetitiveANN net = new CompetitiveANN(0.5, d1.getData().size(), 2);
+		CompetitiveANN net = new CompetitiveANN(0.5, d1.getData().size(), 3);
 		
 		ArrayList<Datum> test = new ArrayList<Datum>();
 		test.add(d4);

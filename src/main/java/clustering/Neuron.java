@@ -33,9 +33,11 @@ public class Neuron {
 	public double calcOutput(){
 		if (competeUnit){
 			output = 0;
+			
 			for (int i = 0; i < inputs.size(); i++){
 				output += (w.get(i) * inputs.get(i));
 			}
+			
 			return output;
 		} else {
 			return output;
@@ -87,7 +89,9 @@ public class Neuron {
 		normalizeWeights();
 	}
 	
-
+	public void clearInputs(){
+		inputs.clear();
+	}
 	
 	public void addChild(Neuron c){
 		children.add(c);
