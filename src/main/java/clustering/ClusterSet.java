@@ -55,7 +55,11 @@ public class ClusterSet {
 				c_coh = c.getPts().get(i).calcDist(c.getPts().get(j));
 			}
 		}
-		c_coh += (c_coh / c.getPts().size());
+		if (c.getPts().size() > 0){
+			c_coh += (c_coh / c.getPts().size());
+		} else {
+			c_coh += 0;
+		}
 		return c_coh;
 	}
 
