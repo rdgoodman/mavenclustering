@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
+import clustering.ClusterSet;
 import clustering.CompetitiveANN;
 import clustering.Datum;
 
@@ -49,13 +50,13 @@ public class CompetitiveANNTest {
 		a6.add(.19);
 		
 		Datum d1 = new Datum(a1);
-		Datum d2 = new Datum(a1);
-		Datum d3 = new Datum(a1);
-		Datum d4 = new Datum(a1);
-		Datum d5 = new Datum(a1);
-		Datum d6 = new Datum(a1);
+		Datum d2 = new Datum(a2);
+		Datum d3 = new Datum(a3);
+		Datum d4 = new Datum(a4);
+		Datum d5 = new Datum(a5);
+		Datum d6 = new Datum(a6);
 		
-		CompetitiveANN net = new CompetitiveANN(0.5, d1.getData().size(), 3);
+		CompetitiveANN net = new CompetitiveANN(0.5, d1.getData().size(), 5);
 		
 		ArrayList<Datum> test = new ArrayList<Datum>();
 		test.add(d4);
@@ -66,7 +67,10 @@ public class CompetitiveANNTest {
 		train.add(d2);
 		train.add(d3);
 		
-		net.run(train, test);
+		ClusterSet soln = new ClusterSet(net.run(train, test));
+		//soln.print();
+		soln.calcCohesion();
+		//soln.calcSeparation();
 	}
 
 }

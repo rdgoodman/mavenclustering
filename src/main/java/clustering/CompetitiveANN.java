@@ -109,6 +109,8 @@ public class CompetitiveANN {
 			int index = generateOutputs();
 			// assign this datum to the cluster
 			clusters.get(index).addPoint(d);
+			//d.print();
+			//System.out.println("Assigned to cluster " + index);
 		}
 		
 		for (Cluster c: clusters){

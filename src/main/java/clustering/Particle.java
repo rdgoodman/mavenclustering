@@ -188,7 +188,8 @@ public class Particle {
 		
 		// constriction coefficient (velocity control)
 		double chi = (2 * kappa);
-		double denominator = 2 - phi - Math.sqrt(Math.sqrt(phi) * (phi-4));		
+		double denominator = 2 - phi - Math.sqrt(Math.sqrt(phi) * (phi-4));	
+		denominator = Math.abs(denominator);
 		chi = chi/denominator;
 
 		for (int c = 0; c < numClusters; c++){

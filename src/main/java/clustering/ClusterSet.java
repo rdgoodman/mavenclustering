@@ -26,6 +26,7 @@ public class ClusterSet {
 		for (Cluster c : clusters) {
 			coh += calcCoh(c);
 		}
+		System.out.println("Overall cohesion: " + coh);
 		return coh;
 	}
 
@@ -35,10 +36,11 @@ public class ClusterSet {
 	public double calcSeparation() {
 		double sep = 0;
 		for (int i = 0; i < clusters.size(); i++) {
-			for (int j = i + 1; j < clusters.size(); j++) { 
-					sep += calcSep(clusters.get(i), clusters.get(j));
+			for (int j = i + 1; j < clusters.size(); j++) {
+				sep += calcSep(clusters.get(i), clusters.get(j));
 			}
 		}
+		System.out.println("Overall separation: " + sep);
 		return sep;
 	}
 
@@ -95,6 +97,14 @@ public class ClusterSet {
 
 	public void setBetweenClusterSumSq(double betweenClusterSumSq) {
 		this.betweenClusterSumSq = betweenClusterSumSq;
+	}
+	
+	public void print(){
+		for (Cluster c : clusters){
+			for (Datum d : c.getPts()){
+				d.print();
+			}
+		}
 	}
 
 }
