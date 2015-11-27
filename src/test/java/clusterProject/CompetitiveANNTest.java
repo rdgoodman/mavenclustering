@@ -70,7 +70,7 @@ public class CompetitiveANNTest {
 		ClusterSet soln = new ClusterSet(net.run(train, test));
 		//soln.print();
 		soln.calcCohesion();
-		//soln.calcSeparation();
+		soln.calcSeparation();
 	}
 
 }

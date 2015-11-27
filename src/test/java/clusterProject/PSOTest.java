@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
+import clustering.ClusterSet;
 import clustering.Datum;
 import clustering.PSO;
 
@@ -94,6 +95,13 @@ public class PSOTest {
 		
 		PSO pso = new PSO(0.2, 0.5, 0.5, 10, 3, d1.getData().size(), 0.5);
 		pso.print();
-		pso.run(data);
+		
+		ClusterSet soln = new ClusterSet(pso.run(data));
+		System.out.println();
+		System.out.println();
+		soln.print();
+		System.out.println();
+		soln.calcCohesion();
+		soln.calcSeparation();
 	}
 }
